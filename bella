@@ -1,0 +1,81 @@
+<!doctype html>
+<head>
+	<link type="text/css" rel="style.css">
+	<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+</head>
+<body>
+	<div class="container">
+	<header>
+		<div clas="left-logo">ife.baidu.com</div>
+		<p>2016.03</p>
+	</header>
+	<div><img src="" alt=""></div>
+	</div>
+
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+		  var videoPath = "videos/lg/";
+		  var draggedItem = null;
+
+		  $('.segmentListItem').each(function(index) {
+		  $(this)[0].addEventListener('dragstart', handleDragStart, false);
+		  $(this)[0].addEventListener('drop', handleDrop, false);
+		  $(this)[0].addEventListener('dragover', handleDragOver, false);
+		  });
+
+		  function handleDragStart(e) {
+		  //console.log('start');
+		  draggedItem = this;
+		  e.dataTransfer.effectAllowed = 'move';
+		  }
+
+		  function handleDragOver(e) {
+		  if (e.preventDefault) {
+		  e.preventDefault(); // Necessary. Allows us to drop.
+		  }
+		  e.dataTransfer.dropEffect = 'move'; // See the section on the DataTransfer object.
+		  return false;
+		  }
+
+		  function handleDrop(e) {
+			  if (e.stopPropagation) {
+			  	e.stopPropagation(); // Stops some browsers from redirecting.
+			  }
+
+			  console.log("draggedItem")
+			  console.log(draggedItem)
+
+			  if (draggedItem != this) { //MH - swap if we're not dragging the item onto itself
+				  var parent = this.parentNode,
+				  insertionPoint, elem = this;
+
+				  console.log("This")
+				  console.log(this)
+
+				  do {
+					  elem = elem.nextSibling;
+
+					  console.log("Elem")
+					  console.log(elem)
+
+				  } while (elem && elem !== draggedItem);
+
+				  insertionPoint = elem ? this : this.nextSibling;
+
+				  console.log("insertionPoint")
+				  console.log(insertionPoint)
+
+				  parent.insertBefore(draggedItem, insertionPoint);
+				  draggedItem = null;
+			  }
+
+			  return false;
+		  }
+
+		});
+
+
+	</script>
+
+</body>
